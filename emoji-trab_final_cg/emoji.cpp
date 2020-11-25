@@ -14,7 +14,23 @@ void timer(int);
 
 void init() {
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0);
+    GLfloat light_ambient[] = { 255.0, 165.0, 0,0, 1,0 };
+    GLfloat light_diffuse[] = { 1.0, 1.0, 0.0, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 75,0 };
+    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+
+    glClearColor(0.0, 0.0, 0.0, 01.0);
+    glShadeModel(GL_SMOOTH);
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
 
 };
@@ -46,52 +62,8 @@ void display() {
     glTranslatef(0.0, 0.0, -8.0);
     glRotatef(angle, 1.0, 1.0, 1.0);
 
-    //draw
-    glBegin(GL_QUADS);
-
-    //front
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(-1.0, 1.0, 1.0);
-    glVertex3f(-1.0, -1.0, 1.0);
-    glVertex3f(1.0, -1.0, 1.0);
-    glVertex3f(1.0, 1.0, 1.0);
-
-    //back
-    glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(1.0, 1.0, -1.0);
-    glVertex3f(1.0, -1.0, -1.0);
-    glVertex3f(-1.0, -1.0, -1.0);
-    glVertex3f(-1.0, 1.0, -1.0);
-
-    //right
-    glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(1.0, 1.0, 1.0);
-    glVertex3f(1.0, -1.0, 1.0);
-    glVertex3f(1.0, -1.0, -1.0);
-    glVertex3f(1.0, 1.0, -1.0);
-
-    //left
-    glColor3f(1.0, 1.0, 0.0);
-    glVertex3f(-1.0, 1.0, -1.0);
-    glVertex3f(-1.0, -1.0, -1.0);
-    glVertex3f(-1.0, -1.0, 1.0);
-    glVertex3f(-1.0, 1.0, 1.0);
-
-    //top
-    glColor3f(0.0, 1.0, 1.0);
-    glVertex3f(-1.0, 1.0, -1.0);
-    glVertex3f(-1.0, 1.0, 1.0);
-    glVertex3f(1.0, 1.0, 1.0);
-    glVertex3f(1.0, 1.0, -1.0);
-
-    //bottom
-    glColor3f(1.0, 0.0, 1.0);
-    glVertex3f(-1.0, -1.0, -1.0);
-    glVertex3f(-1.0, -1.0, 1.0);
-    glVertex3f(1.0, -1.0, 1.0);
-    glVertex3f(1.0, -1.0, -1.0);
-
-    glEnd();
+    glColor3f(255.0, 200.0, 0.0);
+    glutSolidSphere(1.0, 20, 16);
     glFlush();
 
     glutSwapBuffers();
@@ -102,8 +74,15 @@ void reshape(int w, int h) {
     glViewport(0, 0, (GLsizei)w, (GLsizei)h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60, 1, 2.0, 50.0);
+    if (w <= h)
+        glOrtho(-1.5, 1.5, -1.5 * (GLfloat)h / (GLfloat)w,
+            1.5 * (GLfloat)h / (GLfloat)w, -10.0, 10.0);
+    else
+        glOrtho(-1.5 * (GLfloat)w / (GLfloat)h,
+            1.5 * (GLfloat)w / (GLfloat)h, -1.5, 1.5, -10.0, 10.0);
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
 };
 
 void timer(int) {
