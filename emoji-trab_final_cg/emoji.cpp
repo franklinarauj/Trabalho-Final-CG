@@ -59,11 +59,22 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glTranslatef(0.0, 0.0, -8.0);
-    glRotatef(angle, 1.0, 1.0, 1.0);
+    glTranslatef(0.0, 0.0, 0.0); // (tx, ty, tz)
+    glRotatef(angle, 0.0, 1.0, 0.0); // (Angulo, x, y, z) rodando apenas no eixo y
 
     glColor3f(255.0, 200.0, 0.0);
     glutSolidSphere(1.0, 20, 16);
+
+    glTranslatef(0.0f, 1.0f, 0.0f);
+    glutSolidSphere(0.15f, 20, 20);
+
+    glTranslatef(.75, .5, -.75);
+    glPushMatrix();                   
+    glScalef(1, 3, 1);
+    glutSolidCube(.25);
+    //glutSolidCone(0.08f, 0.5f, 10, 2);
+    glPopMatrix();
+
     glFlush();
 
     glutSwapBuffers();
