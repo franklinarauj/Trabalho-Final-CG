@@ -13,26 +13,8 @@ void reshape(int, int);
 void timer(int);
 
 void init() {
-
-    GLfloat light_ambient[] = { 255.0, 165.0, 0,0, 1,0 };
-    GLfloat light_diffuse[] = { 1.0, 1.0, 0.0, 1.0 };
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 75,0 };
-    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
-
-    glClearColor(0.0, 0.0, 0.0, 01.0);
-    glShadeModel(GL_SMOOTH);
-
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
-
 };
 
 int main(int argc, char** argv) {
@@ -59,24 +41,90 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glTranslatef(0.0, 0.0, 0.0); // (tx, ty, tz)
     glRotatef(angle, 0.0, 1.0, 0.0); // (Angulo, x, y, z) rodando apenas no eixo y
 
+    // CORPO
+    glPushMatrix();
+    glTranslatef(0.0, 0.0, 0.0); // (tx, ty, tz)
     glColor3f(255.0, 200.0, 0.0);
-    glutSolidSphere(1.0, 20, 16);
+    glutSolidSphere(1.0, 30, 24);
+    glPopMatrix();
 
-    glTranslatef(0.0f, 1.0f, 0.0f);
-    glutSolidSphere(0.15f, 20, 20);
+    // CHAPEU DE FESTA
+    glPushMatrix();
+    glColor3f(0.0, 0.0, 102.0);
+    glTranslatef(-0.50f, 0.60f, 0.0f);
+    glRotatef(-90.0, 6.0, 2.5, -2.0);
+    glutSolidCone(0.5, 1.0, 20, 15);
+    glPopMatrix();
 
-    glTranslatef(.75, .5, -.75);
-    glPushMatrix();                   
-    glScalef(1, 3, 1);
-    glutSolidCube(.25);
-    //glutSolidCone(0.08f, 0.5f, 10, 2);
+    // OLHO ESQUERDO BRANCO
+    glPushMatrix();
+    glColor3f(255.0, 255.0, 255.0);
+    glTranslatef(-0.5f, 0.35f, 0.65f);
+    glutSolidSphere(0.25f, 20, 20);
+    glPopMatrix();
+
+    // OLHO ESQUERDO PRETO
+    glPushMatrix();
+    glColor3f(0.0, 0.0, 0.0);
+    glTranslatef(-0.52f, 0.35f, 0.71f);
+    glutSolidSphere(0.20f, 20, 20);
+    glPopMatrix();
+
+    // OLHO DIREITO BRANCO
+    glPushMatrix();
+    glColor3f(255.0, 255.0, 255.0);
+    glTranslatef(0.5f, 0.35f, 0.65f);
+    glutSolidSphere(0.25f, 20, 20);
+    glPopMatrix();
+
+    // OLHO DIREIO PRETO
+    glPushMatrix();
+    glColor3f(0.0, 0.0, 0.0);
+    glTranslatef(0.52f, 0.35f, 0.71f);
+    glutSolidSphere(0.20f, 20, 20);
+    glPopMatrix();
+
+    // BOCA
+    glPushMatrix();
+    glColor3f(0.0, 0.0, 0.0);
+    glTranslatef(-0.25f, -0.15f, 0.75f);
+    glutSolidSphere(0.25f, 30, 25);
+    glPopMatrix();
+
+    // LINGUA DE SOGRA PARTE 1
+    glPushMatrix();
+    glColor3f(0.0, 0.0, 255.0);
+    glTranslatef(-0.30f, -0.20f, 1.0f);
+    glutSolidCube(0.20f);
+    glPopMatrix();
+
+    // LINGUA DE SOGRA PARTE 2
+    glPushMatrix();
+    glColor3f(0.0, 255.0, 0.0);
+    glTranslatef(-0.30f, -0.20f, 1.2f);
+    glScalef(1.0, 1.0, 3.0);
+    glutSolidCube(0.15f);
+    glPopMatrix();
+
+    // LINGUA DE SOGRA PARTE 3
+    glPushMatrix();
+    glColor3f(255.0, 0.0, 0.0);
+    glTranslatef(-0.30f, -0.20f, 1.5f);
+    glScalef(1.0, 1.0, 3.0);
+    glutSolidCube(0.10f);
+    glPopMatrix();
+
+    // LINGUA DE SOGRA PARTE 4
+    glPushMatrix();
+    glColor3f(255.0, 0.0, 255.0);
+    glTranslatef(-0.30f, -0.20f, 1.75f);
+    glScalef(1.0, 1.0, 3.0);
+    glutSolidCube(0.05f);
     glPopMatrix();
 
     glFlush();
-
     glutSwapBuffers();
 };
 
@@ -100,7 +148,7 @@ void timer(int) {
     glutPostRedisplay();
     glutTimerFunc(1000 / 60, timer, 0);
 
-    angle += 0.8;
+    angle += 1.0;
     if (angle > 360.0)
         angle = angle - 360.0;
 };
